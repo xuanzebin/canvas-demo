@@ -1,0 +1,37 @@
+body {
+    margin:0;
+}
+* {
+    text-decoration: none;
+}
+#canvasBoard {
+    background: white;
+}
+#actions {
+    position:fixed;
+    left:0; bottom:0;
+}
+.actions.x #eraser {
+    display:inline-block;
+}
+.actions.x #pan {
+    display:none;
+}
+.actions #pan {
+    display:inline-block;
+}
+#pan,#eraser,#clear {
+    font-size:20px;
+}
+.actions #eraser {
+    display:none;
+}
+.wrapper {
+    position:relative;
+}
+.wrapper #canvasBoard  {
+    position:absolute;
+}
+.eraserCir {
+    position:absolute;left:300px; top:300px;border:2px black solid;width:28px;height:28px; display: none;
+}
