@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>简易画板</title>
     <link rel="stylesheet" href="./style.css">
-    <script src="//at.alicdn.com/t/font_687099_khzohboj5i4o0f6r.js"></script>
+    <script src="//at.alicdn.com/t/font_687099_yif8xpt423z69a4i.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -31,14 +31,30 @@
                     <use xlink:href="#icon-download"></use>
             </svg>
     </div>
-    <ol class="color">
-        <li id="black" class="black active"></li>
-        <li id="red" class="red"></li>
-        <li id="blue" class="blue"></li>
-        <li id="pink" class="pink"></li>
-        <li id="yellow" class="yellow"></li>
-        <li id="green" class="green"></li>
-    </ol>
+    <div id="colorMask" class="colorMask clearfix">
+        <ol id="colorOne" class="color">
+                <li id="black" class="black active"></li>
+                <li id="red" class="red"></li>
+                <li id="blue" class="blue"></li>
+                <li id="pink" class="pink"></li>
+                <li id="yellow" class="yellow"></li>
+                <li id="green" class="green"></li>
+        </ol>
+        <ol id="colorTwo" class="colorTwo">
+                <li id="grey" class="grey"></li>
+                <li id="purple" class="purple"></li>
+                <li id="maroon" class="maroon"></li>
+                <li id="lawngreen" class="lawngreen"></li>
+                <li id="orange" class="orange"></li>
+                <li id="aqua" class="aqua"></li>
+        </ol>
+        <svg id="left" class="icon">
+                <use xlink:href="#icon-next"></use>
+        </svg>
+        <svg id="right" class="icon">
+                <use xlink:href="#icon-arr-right"></use>
+        </svg>
+    </div>
     <script src="./main.js"></script>
 </body>
 </html>

@@ -25,13 +25,19 @@ function autoSetCanvasSize(canvas) {
         canvas.height=pageHeight    
     }
 }
-function color(cx,c1,c2,c3,c4,c5) {
+function color(cx,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11) {
     cx.classList.add('active')
     c1.classList.remove('active')
     c2.classList.remove('active')
     c3.classList.remove('active')
     c4.classList.remove('active')
     c5.classList.remove('active')
+    c6.classList.remove('active')
+    c7.classList.remove('active')
+    c8.classList.remove('active')
+    c9.classList.remove('active')
+    c10.classList.remove('active')
+    c11.classList.remove('active')
 }
 function buttonOnclick() {
     clearCanvas.onclick=function() {
@@ -89,27 +95,65 @@ function buttonOnclick() {
     }
     red.onclick=function() {
         context.strokeStyle="red"
-        color(red,blue,black,yellow,pink,green)
+        color(red,blue,black,yellow,pink,green,grey,purple,maroon,lawngreen,orange,aqua)
     }
     blue.onclick=function() {
         context.strokeStyle='blue'
-        color(blue,red,black,yellow,pink,green) 
+        color(blue,red,black,yellow,pink,green,grey,purple,maroon,lawngreen,orange,aqua) 
     }
     black.onclick=function() {
         context.strokeStyle='black'
-        color(black,blue,red,yellow,pink,green) 
+        color(black,blue,red,yellow,pink,green,grey,purple,maroon,lawngreen,orange,aqua) 
     }
     yellow.onclick=function() {
         context.strokeStyle='yellow'
-        color(yellow,black,blue,red,pink,green) 
+        color(yellow,black,blue,red,pink,green,grey,purple,maroon,lawngreen,orange,aqua) 
     }
     pink.onclick=function() {
         context.strokeStyle='pink'
-        color(pink,yellow,black,blue,red,green) 
+        color(pink,yellow,black,blue,red,green,grey,purple,maroon,lawngreen,orange,aqua) 
     }
     green.onclick=function() {
         context.strokeStyle='green'
-        color(green,pink,yellow,black,blue,red)
+        color(green,pink,yellow,black,blue,red,grey,purple,maroon,lawngreen,orange,aqua)
+    }
+    grey.onclick=function() {
+        context.strokeStyle='grey'
+        color(grey,purple,maroon,lawngreen,orange,aqua,green,pink,yellow,black,blue,red)
+    }
+    purple.onclick=function() {
+        context.strokeStyle='purple'
+        color(purple,grey,maroon,lawngreen,orange,aqua,green,pink,yellow,black,blue,red)
+    }
+    maroon.onclick=function() {
+        context.strokeStyle='maroon'
+        color(maroon,purple,grey,lawngreen,orange,aqua,green,pink,yellow,black,blue,red)
+    }
+    lawngreen.onclick=function() {
+        context.strokeStyle='lawngreen'
+        color(lawngreen,purple,maroon,grey,orange,aqua,green,pink,yellow,black,blue,red)
+    }
+    orange.onclick=function() {
+        context.strokeStyle='orange'
+        color(orange,purple,maroon,lawngreen,grey,aqua,green,pink,yellow,black,blue,red)
+    }
+    aqua.onclick=function() {
+        context.strokeStyle='aqua'
+        color(aqua,purple,maroon,lawngreen,orange,grey,green,pink,yellow,black,blue,red)
+    }
+    left.onclick=function() {
+        left.style="display:none;"
+        right.style="display:block;"
+        colorOne.style="display:none;"
+        colorTwo.style="display:none;"
+        colorMask.style="width:16px;"
+    }
+    right.onclick=function() {
+        left.style="display:block;"
+        right.style="display:none;"
+        colorMask.style="width:105px;"
+        colorOne.style="display:block;"
+        colorTwo.style="display:block;"
     }
 }
 function drawLine(x1,y1,x2,y2) {

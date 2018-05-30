@@ -11,9 +11,15 @@ body {
 ol,ul {
     list-style:none;
     padding:0;
+    margin:0;
 }
 * {
     text-decoration: none;
+}
+.clearfix::after {
+    content:'';
+    display:block;
+    clear:both;
 }
 #canvasBoard {
     background: white;
@@ -45,9 +51,12 @@ ol,ul {
 .wrapper .eraserCir {
     position:absolute;left:300px; top:300px;border:2px black solid;width:28px;height:28px; display: none;
 }
-.color {
+.colorMask {
     position:fixed;
-    top:50px; left:11px;
+    top:70px; left:11px;
+    background: rgba(100,100,100,0.3);
+    border-radius: 18px;
+    width:105px;
 }
 .color li {
     cursor: pointer;
@@ -76,6 +85,54 @@ ol,ul {
     background: green;
 }
 .color li.active{
+    transform: scale(1.2);
+    border:2px solid black;
+}
+.color {
+    float: left;
+    margin-left:5px;
+    margin-right:18px;
+}
+.colorTwo{
+    float:left;
+}
+.colorMask svg {
+    float:right;
+}
+.colorMask #right {
+    margin:114px 0;
+    display:none;
+}
+.colorMask #left {
+    margin:114px 0;
+}
+.colorTwo li {
+    cursor: pointer;
+    width:25px; height:25px;
+    border-radius: 50%;
+    margin:10px 0;
+    border:2px grey solid;
+    transition: all 0.3s;
+}
+.colorTwo .grey {
+    background: grey;
+}
+.colorTwo .purple {
+    background: purple;
+}
+.colorTwo .orange {
+    background: orange;
+}
+.colorTwo .lawngreen {
+    background: lawngreen;
+}
+.colorTwo .aqua {
+    background: aqua;
+}
+.colorTwo .maroon {
+    background: maroon;
+}
+.colorTwo li.active{
     transform: scale(1.2);
     border:2px solid black;
 }
