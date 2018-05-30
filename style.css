@@ -1,5 +1,15 @@
+.icon {
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
 body {
-    margin:0;
+    margin:0;padding:0;
+}
+ol,ul {
+    list-style:none;
+    padding:0;
 }
 * {
     text-decoration: none;
@@ -9,7 +19,19 @@ body {
 }
 #actions {
     position:fixed;
-    left:0; bottom:0;
+    left:0; top:0;
+
+}
+#actions svg {
+    width:2em; height:2em;
+    margin:15px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+#actions svg.active {
+    fill:red;
+    transform: scale(1.2);
+
 }
 .actions.x #eraser {
     display:inline-block;
@@ -34,4 +56,34 @@ body {
 }
 .eraserCir {
     position:absolute;left:300px; top:300px;border:2px black solid;width:28px;height:28px; display: none;
+}
+.color {
+    position:fixed;
+    top:50px; left:11px;
+}
+.color li {
+    cursor: pointer;
+    width:25px; height:25px;
+    border-radius: 50%;
+    margin:10px 0;
+    border:2px grey solid;
+    transition: all 0.3s;
+}
+.color .red {
+    background: red;
+}
+.color .black {
+    background: black;
+}
+.color .blue {
+    background: blue;
+}
+.color .yellow {
+    background: yellow;
+}
+.color .pink {
+    background: pink;
+}
+.color li.active{
+    transform: scale(1.2);
 }

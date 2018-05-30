@@ -4,108 +4,33 @@
     <meta charset="UTF-8">
     <title>简易画板</title>
     <link rel="stylesheet" href="./style.css">
+    <script src="//at.alicdn.com/t/font_687099_49w6vlzn15uerk9.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+    
     <div class="wrapper">
         <canvas id="canvasBoard"></canvas>
         <div class="eraserCir" id="eraserCir"></div>
     </div>
     <div id="actions" class="actions x">
-        <button id="eraser">橡皮檫</button>
-        <button id="pan">画笔</button>
-        <button id="clear">清空</button>
+            <svg id="pen" class="icon active">
+                    <use xlink:href="#icon-pencil"></use>
+            </svg>
+            <svg id="eraser" class="icon">
+                    <use xlink:href="#icon-eraser"></use>
+            </svg>
+            <svg id="clearCanvas" class="icon">
+                    <use xlink:href="#icon-empty"></use>
+            </svg>
     </div>
-    <script>
-        var canvas=document.getElementById('canvasBoard')
-        var context=canvas.getContext('2d')
-        var pageWidth,pageHeight
-        var eraserEnabled=false
-        autoSetCanvasSize(canvas)
-        listenToMouse(canvas)
-        buttonOnclick()
-
-        //以下为工具函数
-        function autoSetCanvasSize(canvas) {
-            setCanvasSize()
-            window.onresize=function() {
-                setCanvasSize()
-            }
-            function setCanvasSize() {
-                pageWidth=document.documentElement.clientWidth
-                pageHeight=document.documentElement.clientHeight
-                canvas.width=pageWidth
-                canvas.height=pageHeight    
-            }
-        }
-        function buttonOnclick() {
-            eraser.onclick=function() {
-                actions.className="actions"
-                eraserCir.style="display:block;"
-                eraserEnabled=!eraserEnabled
-            }
-            pan.onclick=function() {
-                actions.className="actions x"
-                eraserCir.style="display:none;"
-                eraserEnabled=!eraserEnabled
-            }
-            clear.onclick=function() {
-                context.clearRect(0,0,pageWidth,pageHeight)
-            }
-        }
-        function drawLine(x1,y1,x2,y2) {
-            context.beginPath()
-            context.moveTo(x1,y1)
-            context.lineTo(x2,y2)
-            context.lineWidth=3
-            context.fillsyle='black'
-            context.stroke()
-            context.closePath()
-        }
-        function listenToMouse(canvas) {
-            var lastPoint={x:undefined,y:undefined}
-            var using=false
-            canvas.onmousedown=function(mouseDown) {
-                var x=mouseDown.clientX
-                var y=mouseDown.clientY
-                using=true
-                if (eraserEnabled) {
-                    context.clearRect(x-15,y-15,30,30)
-                } else {
-                    lastPoint={x:x,y:y}
-                }
-            }
-            eraserCir.onmousedown=function(cirDown) {
-                var x=cirDown.clientX
-                var y=cirDown.clientY
-                using=true
-                context.clearRect(x-15,y-15,30,30)
-            }
-            canvas.onmousemove=function(mouseMove) {
-                var x=mouseMove.clientX
-                var y=mouseMove.clientY
-                var eraserX=x-15,eraserY=y-15
-                if (eraserEnabled) {       
-                    eraserCir.style="left:"+eraserX+"px;top:"+eraserY+"px;display:block;"
-                }
-                if (using) {
-                    if (eraserEnabled) {
-                        context.clearRect(x-15,y-15,30,30)
-                    } else {
-                        var newPoint={x:x,y:y}
-                        drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
-                        lastPoint=newPoint
-                    }
-                }else {
-                    return
-                }
-            }
-            eraserCir.onmouseup=function(cirUp) {
-                using=false
-            }
-            canvas.onmouseup=function(mouseUp) {
-                using=false
-            }
-        }
-    </script>
+    <ol class="color">
+        <li id="black" class="black"></li>
+        <li id="red" class="red"></li>
+        <li id="blue" class="blue"></li>
+        <li id="pink" class="pink"></li>
+        <li id="yellow" class="yellow"></li>
+    </ol>
+    <script src="./main.js"></script>
 </body>
 </html>
