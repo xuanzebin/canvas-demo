@@ -6,6 +6,7 @@
 }
 body {
     margin:0;padding:0;
+    overflow:hidden;
 }
 ol,ul {
     list-style:none;
@@ -33,28 +34,15 @@ ol,ul {
     transform: scale(1.2);
 
 }
-.actions.x #eraser {
-    display:inline-block;
-}
-.actions.x #pan {
-    display:none;
-}
-.actions #pan {
-    display:inline-block;
-}
-#pan,#eraser,#clear {
-    font-size:20px;
-}
-.actions #eraser {
-    display:none;
-}
 .wrapper {
-    position:relative;
+    display: block;
+    position: fixed;
+    left:0; top:0;
 }
 .wrapper #canvasBoard  {
-    position:absolute;
+    position:relative;
 }
-.eraserCir {
+.wrapper .eraserCir {
     position:absolute;left:300px; top:300px;border:2px black solid;width:28px;height:28px; display: none;
 }
 .color {
@@ -84,6 +72,10 @@ ol,ul {
 .color .pink {
     background: pink;
 }
+.color .green {
+    background: green;
+}
 .color li.active{
     transform: scale(1.2);
+    border:2px solid black;
 }

@@ -2,11 +2,17 @@ var canvas=document.getElementById('canvasBoard')
 var context=canvas.getContext('2d')
 var pageWidth,pageHeight
 var eraserEnabled=false
+var lineWidth=2;
 autoSetCanvasSize(canvas)
+fillWhite()
 listenToUser(canvas)
 buttonOnclick()
 
 //以下为工具函数
+function fillWhite() {
+    context.fillStyle='white'
+    context.fillRect(0,0,pageWidth,pageHeight)
+}
 function autoSetCanvasSize(canvas) {
     setCanvasSize()
     window.onresize=function() {
@@ -19,71 +25,98 @@ function autoSetCanvasSize(canvas) {
         canvas.height=pageHeight    
     }
 }
-function color(cx,c1,c2,c3,c4) {
+function color(cx,c1,c2,c3,c4,c5) {
     cx.classList.add('active')
     c1.classList.remove('active')
     c2.classList.remove('active')
     c3.classList.remove('active')
     c4.classList.remove('active')
+    c5.classList.remove('active')
 }
 function buttonOnclick() {
     clearCanvas.onclick=function() {
         context.clearRect(0,0,pageWidth,pageHeight)
+        fillWhite()
+        pen.classList.add('active')
+        eraser.classList.remove('active')
+        brush.classList.remove('active')
         if (eraserEnabled) {
-            pen.classList.add('active')
-            eraser.classList.remove('active')
             eraserEnabled=!eraserEnabled
-            actions.classList.add="x"
         } else { 
             return
         }
     }
     pen.onclick=function() {
+        pen.classList.add('active')
+        eraser.classList.remove('active')
+        brush.classList.remove('active')
+        lineWidth=2
         if (eraserEnabled) {
-            pen.classList.add('active')
-            eraser.classList.remove('active')
             eraserEnabled=!eraserEnabled
-            actions.classList.add="x"
+        } else { 
+            return
+        }
+    }
+    brush.onclick=function() {
+        brush.classList.add('active')
+        eraser.classList.remove('active')
+        pen.classList.remove('active')
+        lineWidth=5
+        if (eraserEnabled) {
+            eraserEnabled=!eraserEnabled
         } else { 
             return
         }
     }
     eraser.onclick=function() {
+        pen.classList.remove('active')
+        eraser.classList.add('active')
+        brush.classList.remove('active')
         if (!eraserEnabled) {
-            pen.classList.remove('active')
-            eraser.classList.add('active')
             eraserEnabled=!eraserEnabled
-            actions.classList.remove="x"
         } else {
             return
         }
     }
+    download.onclick=function() {
+        var url= canvas.toDataURL("image/png")
+        var a=document.createElement('a')
+        document.body.appendChild(a)
+        a.href=url
+        a.download="我的作品"
+        a.target='_blank'
+        a.click()
+    }
     red.onclick=function() {
         context.strokeStyle="red"
-        color(red,blue,black,yellow,pink)
+        color(red,blue,black,yellow,pink,green)
     }
     blue.onclick=function() {
         context.strokeStyle='blue'
-        color(blue,red,black,yellow,pink) 
+        color(blue,red,black,yellow,pink,green) 
     }
     black.onclick=function() {
         context.strokeStyle='black'
-        color(black,blue,red,yellow,pink) 
+        color(black,blue,red,yellow,pink,green) 
     }
     yellow.onclick=function() {
         context.strokeStyle='yellow'
-        color(yellow,black,blue,red,pink) 
+        color(yellow,black,blue,red,pink,green) 
     }
     pink.onclick=function() {
         context.strokeStyle='pink'
-        color(pink,yellow,black,blue,red) 
+        color(pink,yellow,black,blue,red,green) 
+    }
+    green.onclick=function() {
+        context.strokeStyle='green'
+        color(green,pink,yellow,black,blue,red)
     }
 }
 function drawLine(x1,y1,x2,y2) {
     context.beginPath()
     context.moveTo(x1,y1)
     context.lineTo(x2,y2)
-    context.lineWidth=3
+    context.lineWidth=lineWidth
     context.stroke()
     context.closePath()
 }
