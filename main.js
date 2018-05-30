@@ -7,7 +7,11 @@ autoSetCanvasSize(canvas)
 fillWhite()
 listenToUser(canvas)
 buttonOnclick()
+function preventBehavior(e) {
+    e.preventDefault(); 
+};
 
+document.addEventListener("touchmove", preventBehavior, false);
 //以下为工具函数
 function fillWhite() {
     context.fillStyle='white'
