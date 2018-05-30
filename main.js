@@ -44,6 +44,7 @@ function buttonOnclick() {
         context.clearRect(0,0,pageWidth,pageHeight)
         fillWhite()
         pen.classList.add('active')
+        lineWidth=3
         eraser.classList.remove('active')
         brush.classList.remove('active')
         if (eraserEnabled) {
