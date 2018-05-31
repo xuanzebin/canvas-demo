@@ -6,6 +6,7 @@ var eraserEnabled=false,cancelEnabled=false
 var lineWidth=2;
 var canvasImageData={}
 var imageNum
+var MoveCheck=false,AddCheck=true
 autoSetCanvasSize(canvas)
 fillWhite()
 listenToUser(canvas)
@@ -20,6 +21,7 @@ function fillWhite() {
     context.fillStyle='white'
     context.fillRect(0,0,pageWidth,pageHeight)
     imageNum=0
+    cancelEnabled=false
     canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
     cancel.classList.add('ban')
 }
@@ -171,7 +173,12 @@ function buttonOnclick() {
             canvasImageData[imageNum]=undefined
             imageNum=imageNum-1
             context.putImageData(canvasImageData[imageNum], 0, 0);
-            if (imageNum==0)  cancel.classList.add('ban')
+            if (imageNum==0) {
+                cancel.classList.add('ban')
+                cancelEnabled=false
+            }
+        } else {
+            
         }
     }
 }
@@ -190,19 +197,24 @@ function listenToUser(canvas) {
         canvas.ontouchstart=function(touchDown) {
             var x=touchDown.touches[0].clientX
             var y=touchDown.touches[0].clientY
+            var eraserX=x-15,eraserY=y-15
             using=true
+            AddCheck=true
             if (eraserEnabled) {
+                eraserCir.style="left:"+eraserX+"px;top:"+eraserY+"px;display:block;"
                 context.clearRect(x-15,y-15,30,30)
                 context.fillStyle="white"
                 context.fillRect(x-15,y-15,30,30)
             } else {
+                MoveCheck=false
                 lastPoint={x:x,y:y}
             }         
         }
-        eraserCir.ontouchdown=function(cirDown) {
-            var x=touchDown.touches[0].clientX
-            var y=touchDown.touches[0].clientY
+        eraserCir.ontouchstart=function(cirDown) {
+            var x=cirDown.touches[0].clientX
+            var y=cirDown.touches[0].clientY
             using=true
+            AddCheck=true
             context.clearRect(x-15,y-15,30,30)  
             context.fillStyle="white"
             context.fillRect(x-15,y-15,30,30)
@@ -220,6 +232,7 @@ function listenToUser(canvas) {
                 } else {
                     var newPoint={x:x,y:y}
                     drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
+                    MoveCheck=true
                     lastPoint=newPoint
                 }
             }else {
@@ -229,29 +242,38 @@ function listenToUser(canvas) {
         eraserCir.ontouchend=function(cirUp) {
             using=false
             eraserCir.style="display:none;"
-            if (cancelEnabled) {
+            if (cancelEnabled &&  canvasImageData[imageNum].data!=context.getImageData(0,0,pageWidth,pageHeight).data && AddCheck) {
                 imageNum=imageNum+1
                 canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
             }
         }
         canvas.ontouchend=function(mouseUp) {
-            using=false
+            using=false 
+            if (eraserEnabled) MoveCheck=false
             eraserCir.style="display:none;"
-            imageNum=imageNum+1
-            canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
-            if (imageNum>0) {
-                cancelEnabled=true
-                cancel.classList.remove('ban')
+            if (MoveCheck && AddCheck) {
+                imageNum=imageNum+1
+                canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
+                if (imageNum>0) {
+                    cancelEnabled=true
+                    cancel.classList.remove('ban')
+                }
             }
         }
     } else {
         canvas.onmousedown=function(mouseDown) {
             var x=mouseDown.clientX
             var y=mouseDown.clientY
+            var eraserX=x-15,eraserY=y-15
             using=true
+            AddCheck=true
             if (eraserEnabled) {
                 context.clearRect(x-15,y-15,30,30)
+                eraserCir.style="left:"+eraserX+"px;top:"+eraserY+"px;display:block;"
+                context.fillStyle="white"
+                context.fillRect(x-15,y-15,30,30)
             } else {
+                MoveCheck=false
                 lastPoint={x:x,y:y}
             }
         }
@@ -259,6 +281,7 @@ function listenToUser(canvas) {
             var x=cirDown.clientX
             var y=cirDown.clientY
             using=true
+            AddCheck=true
             context.clearRect(x-15,y-15,30,30)
             context.fillStyle="white"
             context.fillRect(x-15,y-15,30,30)
@@ -276,6 +299,7 @@ function listenToUser(canvas) {
                 } else {
                     var newPoint={x:x,y:y}
                     drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
+                    MoveCheck=true
                     lastPoint=newPoint
                 }
             }else {
@@ -285,7 +309,7 @@ function listenToUser(canvas) {
         eraserCir.onmouseup=function(cirUp) {
             using=false
             eraserCir.style="display:none;"
-            if (cancelEnabled) {
+            if (cancelEnabled && canvasImageData[imageNum].data!=context.getImageData(0,0,pageWidth,pageHeight).data && AddCheck) {
                 imageNum=imageNum+1
                 canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
             }
@@ -293,11 +317,13 @@ function listenToUser(canvas) {
         canvas.onmouseup=function(mouseUp) {
             using=false
             eraserCir.style="display:none;"
-            imageNum=imageNum+1
-            canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
-            if (imageNum>0) {
-                cancelEnabled=true
-                cancel.classList.remove('ban')
+            if (MoveCheck && AddCheck) {
+                imageNum=imageNum+1
+                canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
+                if (imageNum>0) {
+                    cancelEnabled=true
+                    cancel.classList.remove('ban')
+                }
             }
         }
     }
