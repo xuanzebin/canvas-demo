@@ -20,6 +20,7 @@ document.addEventListener("touchmove", preventBehavior, false);
 function fillWhite() {
     context.fillStyle='white'
     context.fillRect(0,0,pageWidth,pageHeight)
+    canvasImageData={}
     imageNum=0
     cancelEnabled=false
     canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
@@ -190,6 +191,15 @@ function drawLine(x1,y1,x2,y2) {
     context.stroke()
     context.closePath()
 }
+function compareImages(img1,img2){
+    if(img1.data.length != img2.data.length)
+        return false
+    for(var i = 0; i < img1.data.length; i=i+1){
+        if(img1.data[i] != img2.data[i])
+            return false
+    }
+    return true  
+ }
 function listenToUser(canvas) {
     var lastPoint={x:undefined,y:undefined}
     var using=false
@@ -205,20 +215,23 @@ function listenToUser(canvas) {
                 context.clearRect(x-15,y-15,30,30)
                 context.fillStyle="white"
                 context.fillRect(x-15,y-15,30,30)
+                MoveCheck=false
             } else {
                 MoveCheck=false
                 lastPoint={x:x,y:y}
             }         
         }
+        /*
         eraserCir.ontouchstart=function(cirDown) {
             var x=cirDown.touches[0].clientX
             var y=cirDown.touches[0].clientY
             using=true
             AddCheck=true
+            MoveCheck=false
             context.clearRect(x-15,y-15,30,30)  
             context.fillStyle="white"
             context.fillRect(x-15,y-15,30,30)
-        }
+        } */
         canvas.ontouchmove=function(touchMove) {
             var x=touchMove.touches[0].clientX
             var y=touchMove.touches[0].clientY
@@ -229,6 +242,8 @@ function listenToUser(canvas) {
                     context.clearRect(x-15,y-15,30,30)
                     context.fillStyle="white"
                     context.fillRect(x-15,y-15,30,30)
+                    AddCheck=false
+                    MoveCheck=true
                 } else {
                     var newPoint={x:x,y:y}
                     drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
@@ -239,17 +254,18 @@ function listenToUser(canvas) {
                 return
             }  
         }
+        /* 
         eraserCir.ontouchend=function(cirUp) {
             using=false
             eraserCir.style="display:none;"
-            if (cancelEnabled &&  canvasImageData[imageNum].data!=context.getImageData(0,0,pageWidth,pageHeight).data && AddCheck) {
+            if (cancelEnabled &&  canvasImageData[imageNum].data!=context.getImageData(0,0,pageWidth,pageHeight).data && MoveCheck) {
+                console.log(1)
                 imageNum=imageNum+1
                 canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
             }
-        }
+        }*/
         canvas.ontouchend=function(mouseUp) {
             using=false 
-            if (eraserEnabled) MoveCheck=false
             eraserCir.style="display:none;"
             if (MoveCheck && AddCheck) {
                 imageNum=imageNum+1
@@ -258,6 +274,10 @@ function listenToUser(canvas) {
                     cancelEnabled=true
                     cancel.classList.remove('ban')
                 }
+            }
+            if (cancelEnabled &&  !compareImages(canvasImageData[imageNum],context.getImageData(0,0,pageWidth,pageHeight))  && !AddCheck) {
+                imageNum=imageNum+1
+                canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
             }
         }
     } else {
@@ -272,6 +292,7 @@ function listenToUser(canvas) {
                 eraserCir.style="left:"+eraserX+"px;top:"+eraserY+"px;display:block;"
                 context.fillStyle="white"
                 context.fillRect(x-15,y-15,30,30)
+                MoveCheck=false
             } else {
                 MoveCheck=false
                 lastPoint={x:x,y:y}
@@ -282,6 +303,7 @@ function listenToUser(canvas) {
             var y=cirDown.clientY
             using=true
             AddCheck=true
+            MoveCheck=false
             context.clearRect(x-15,y-15,30,30)
             context.fillStyle="white"
             context.fillRect(x-15,y-15,30,30)
@@ -296,6 +318,8 @@ function listenToUser(canvas) {
                     context.clearRect(x-15,y-15,30,30)
                     context.fillStyle="white"
                     context.fillRect(x-15,y-15,30,30)
+                    AddCheck=false
+                    MoveCheck=true
                 } else {
                     var newPoint={x:x,y:y}
                     drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
@@ -309,7 +333,7 @@ function listenToUser(canvas) {
         eraserCir.onmouseup=function(cirUp) {
             using=false
             eraserCir.style="display:none;"
-            if (cancelEnabled && canvasImageData[imageNum].data!=context.getImageData(0,0,pageWidth,pageHeight).data && AddCheck) {
+            if (cancelEnabled && !compareImages(canvasImageData[imageNum],context.getImageData(0,0,pageWidth,pageHeight))) {
                 imageNum=imageNum+1
                 canvasImageData[imageNum]=context.getImageData(0,0,pageWidth,pageHeight)
             }
