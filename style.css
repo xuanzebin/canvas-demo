@@ -32,8 +32,8 @@ ol,ul {
 #actions svg {
     width:2em; height:2em;
     margin:15px;
-    transition: all 0.3s;
     cursor: pointer;
+    transition: all 0.3s;
 }
 #actions svg.active {
     fill:red;
